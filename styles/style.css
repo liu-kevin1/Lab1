@@ -1,0 +1,45 @@
+h2 {
+    /* font-size: 50px;  */
+    text-align: "center";
+    font-family: "Nunito", "Open Sans", "monospace";
+}
+
+p, li {
+    color: rgb(59, 55, 55);
+    /* font-size: 16px;  */
+    text-align: "center";
+    /* line-height: 5;  */
+    letter-spacing: 1px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+li.bold {
+    font-style: italic;
+}
+
+p.blue {
+    color: rgb(72, 85, 124);
+    line-height: 1.5;
+}
+
+body {
+    background-color: rgb(211, 207, 198);
+    width: 600px;
+    margin: 0 auto;
+    padding: 0 20px 20px 20px;
+    border: 5px solid black;
+}
+
+html {
+    background-color: rgb(92, 128, 129);
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+    /* width: 70%;
+    height: auto; */
+}
