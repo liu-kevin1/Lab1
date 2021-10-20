@@ -16,10 +16,6 @@ p, li {
     font-weight: bold;
 }
 
-li.bold {
-    font-style: italic;
-}
-
 p.blue {
     color: rgb(72, 85, 124);
     line-height: 1.5;
@@ -27,7 +23,7 @@ p.blue {
 
 body {
     background-color: rgb(211, 207, 198);
-    width: 600px;
+    width: 800px;
     margin: 0 auto;
     padding: 0 20px 20px 20px;
     border: 5px solid black;
