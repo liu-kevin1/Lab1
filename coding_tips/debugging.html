@@ -14,86 +14,123 @@
          title="No stealing!"
          width = 400
          height = 200>
-    <ol>
-        <li>
-            Refuse the fact that your program doesn't work. (1. Denial)
-        </li>
-        <b><li>
-            Put a bunch of print statements in crucial areas to see what does and doesn't run
-        </li></b>
-        <li>
-            Search StackOverflow
-        </li>
-        <b><li>
-            Take a short snack break and come back to it later. You might not find the problem, but at least you won't be as hungry.
-        </li></b>
-        <li>
-            Draw it out on a whiteboard and figure out the program flow
-        </li>
-        <b><li>
-            Ask a friend for help
-        </li></b>
-        <li>
-            Explain it to your duck
-        </li>
-        <b><li>
-            Run it again without changing anything. It might give a different result this time.
-        </li></b>
-        <li>
-            Mentally slam your hands on your desk because you've spent two hours on this already and haven't fixed it (2. Anger)
-        </li>
-        <b><li>
-            Ask your duck for help
-        </li></b>
-        <li>
-            Search GitHub
-        </li>
-        <b><li>
-            Change random things in the code and keep running it. It might work one of the few dozen times you try it.
-        </li></b>
-        <li>
-            Try and get something else working and then call it a day. (3. Bargaining)
-        </li>
-        <b><li>
-            Search Wikipedia
-        </li></b>
-        <li>
-            Try and explain it to your parents
-        </li>
-        <b><li>
-            Search StackOverflow again
-        </li></b>
-        <li>
-            Ask your classmates for help
-        </li>
-        <b><li>
-            Realize how doomed you are and wallow in despair at your bad code. (4. Depression)
-        </li></b>
-        <li>
-            Ask people on social media to review your code
-        </li>
-        <b><li>
-            Search StackOverflow a third time just in case you missed anything
-        </li></b>
-        <li>
-            Copy and paste the files into a new directory and try it again
-        </li>
-        <b><li>
-            Try rewriting it in a different language
-        </li></b>
-        <li>
-            Look at cat pictures
-        </li>
-        <b><li>
-            Accept the fact that the deadline was yesterday and let it go. (5. Acceptance)
-        </li></b>
-        <li>
-            Push your unfinished changes to the repository and just pray that somebody else handles it
-        </li>
-        <b><li>
-            Post your issue on StackOverflow
-        </li></b>
+
+    <label>Bold Rate (Every xth line will be bolded)</label>
+    <input class="input-bold-rate">
+    <button class="button-generate-tips">Release the Tips!</button>
+    
+    <ol class="main-list">
     </ol>
+
+    <script>
+        let mainList = document.querySelector(".main-list");
+        let debuggingTips = [
+            "Refuse the fact that your program doesn't work. (1. Denial)", 
+            "Put a bunch of print statements in crucial areas to see what does and doesn't run", 
+            "Search StackOverflow", 
+            "Take a short snack break and come back to it later. You might not find the problem, but at least you won't be as hungry.", 
+            "Draw it out on a whiteboard and figure out the program flow", 
+            "Ask a friend for help", 
+            "Explain it to your duck", 
+            "Run it again without changing anything. It might give a different result this time.", 
+            "Mentally slam your hands on your desk because you've spent two hours on this already and haven't fixed it (2. Anger)", 
+            "Ask your duck for help", 
+            "Search GitHub", 
+            "Change random things in the code and keep running it. It might work one of the few dozen times you try it.", 
+            "Try and get something else working and then call it a day. (3. Bargaining)", 
+            "Search Wikipedia", 
+            "Try and explain it to your parents", 
+            "Search StackOverflow again", 
+            "Ask your classmates for help", 
+            "Realize how doomed you are and wallow in despair at your bad code. (4. Depression)", 
+            "Ask people on social media to review your code", 
+            "Search StackOverflow a third time just in case you missed anything", 
+            "Copy and paste the files into a new directory and try it again", 
+            "Try rewriting it in a different language", 
+            "Look at cat pictures", 
+            "Accept the fact that the deadline was yesterday and let it go. (5. Acceptance)", 
+            "Push your unfinished changes to the repository and just pray that somebody else handles it", 
+            "Post your issue on StackOverflow", 
+        ];
+
+        function getFontSize(element) {
+            return parseInt(window.getComputedStyle(element, null).getPropertyValue('font-size'), 10);
+        }
+
+        function tweenFontSize(element, goalSize, duration) {
+            let STEP_TIME = 0.01
+            let currentSize = getFontSize(element);
+            let sizeStep = (goalSize - currentSize)/(duration/STEP_TIME);
+            console.log("size step: " + sizeStep);
+
+            let iterations = 0;
+            let maxIterations = duration/STEP_TIME;
+            console.log(maxIterations)
+
+            let interval;
+            interval = setInterval(function() {
+                element.style.fontSize = currentSize + sizeStep*iterations + "px";
+                console.log(currentSize + sizeStep*iterations + "px")
+                iterations = iterations + 1;
+                if ((element == null) || (iterations >= maxIterations)) {
+                    clearInterval(interval);
+                    element.style.fontSize = goalSize + "px";
+                }
+            }, STEP_TIME * 1000);
+        }
+
+        function tweenFontSizeBounce(element, goalSize, duration, bounceSize, bounceDuration) {
+            tweenFontSize(element, bounceSize, bounceDuration);
+            setTimeout(() => {
+                tweenFontSize(element, goalSize, duration);
+            }, bounceDuration * 1000);
+        }
+
+        function createTips() {
+            let DELAY = 0.05 * 1000;
+            let currentElmCount = 1;
+            let boldRate = 2;
+            let boldRateInput = document.querySelector(".input-bold-rate");
+            if (parseInt(boldRateInput.value) != NaN) {
+                boldRate = parseInt(boldRateInput.value);
+            }
+
+            debuggingTips.forEach(function(tip) {
+                let elm = document.createElement("li");
+                let content = tip;
+
+                if (currentElmCount % boldRate == 0) {
+                    content = "<b>" + content + "</b>";
+                }
+                elm.innerHTML = content;
+                elm.style.fontSize = "0px";
+                elm.classList.add("tipElement");
+
+                mainList.appendChild(elm);
+                currentElmCount++;
+                setTimeout(function() {
+                    tweenFontSizeBounce(elm, getFontSize(elm) + 16, 0.2, getFontSize(elm) + 20, 0.25)
+                    // tweenFontSize(elm, getFontSize(elm) + 16, 0.5);
+                }, DELAY*currentElmCount);
+            })
+        }
+
+        function resetTips() {
+            while (mainList.firstElementChild) {
+                mainList.removeChild(mainList.firstElementChild);
+            }
+        }
+
+        function generateTips() {
+            resetTips();
+            createTips();
+        }
+
+        let generateTipsButton = document.querySelector(".button-generate-tips");
+        generateTipsButton.addEventListener("click", generateTips);
+
+        generateTips();
+    </script>
 
     <a href="main.html">Back</a>
 </body>
